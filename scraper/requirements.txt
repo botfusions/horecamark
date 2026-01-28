@@ -19,6 +19,7 @@ python-dotenv==1.0.1
 # Async HTTP
 aiohttp==3.11.11
 aiofiles==24.1.0
+httpx==0.28.1
 
 # HTML Parsing
 beautifulsoup4==4.12.3
