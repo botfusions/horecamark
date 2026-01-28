@@ -65,7 +65,7 @@ install_playwright_browsers() {
 
     # Try up to 3 times with delays
     for attempt in 1 2 3; do
-        if playwright install --with-deps chromium; then
+        if playwright install chromium; then
             log_info "Playwright Chromium installed successfully!"
             return 0
         fi

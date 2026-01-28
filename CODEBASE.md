@@ -9,14 +9,87 @@
 | Property | Value |
 |----------|-------|
 | **Project** | `horecemark` |
-| **Framework** | `Unknown` |
-| **Type** | `Unknown` |
+| **Framework** | `python` |
+| **Type** | `python` |
 | **OS** | Windows |
 | **Path** | `C:\Users\user\Downloads\Z.ai_claude code\horecemark` |
 
 ---
 
+## Project Structure
 
+> **Legend:** `file.ts <- A.tsx, B.tsx` = This file is **imported by** A.tsx and B.tsx.
+> Directories with `[N files: ...]` are summarized to reduce size.
+> [STATS] Showing 37 files. 4 dirs summarized, 5 dirs excluded (node_modules, etc.)
+
+
+```
+.claude/
+  settings.local.json
+database/
+  __init__.py
+  migrations/ [2 files: 1 no-ext, 1 .sql]
+  seeds/ [2 files: 1 no-ext, 1 .csv]
+docs/ [1 files: 1 .md]
+n8n-workflows/
+  .gitkeep
+  README.md
+  daily-scrape.json
+scraper/
+  .env.example
+  __init__.py
+  database.py
+  entrypoint.sh
+  main.py
+  requirements.txt
+  sites/
+    __init__.py
+    arigastro.py
+    base.py
+    cafemarkt.py
+    horecamark.py
+    horecamarkt.py
+    kariyermutfak.py
+    mutbex.py
+  utils/
+    __init__.py
+    analyzer.py
+    brand_list.py
+    config.py
+    db_helper.py
+    logger.py
+    matcher.py
+    normalizer.py
+    notifier.py
+    reporter.py
+    scheduler.py
+scripts/
+  Get-Health.ps1
+  Start-Scheduler.ps1
+  Start-Scraper.ps1
+  health-check.sh
+  monitor-logs.sh
+  start-scheduler.sh
+  start-scraper.sh
+tests/ [3 files: 3 .py]
+```
+
+
+## File Dependencies
+
+> Scanned 26 files
+
+### High-Impact Files
+
+*Files imported by multiple other files:*
+
+| File | Imported by |
+|------|-------------|
+| `scraper/utils/config` | 15 files |
+| `scraper/utils/logger` | 8 files |
+| `scraper/sites/base` | 8 files |
+| `scraper/utils/normalizer` | 8 files |
+| `scraper/database` | 6 files |
 
 
 ---

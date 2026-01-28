@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS price_snapshots (
     currency VARCHAR(10) NOT NULL DEFAULT 'TRY',
     stock_status VARCHAR(50),
     url TEXT,
-    scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    CONSTRAINT uix_site_product_date UNIQUE (site_name, product_id, DATE(scraped_at))
+    scraped_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 -- Price changes: detected significant price variations

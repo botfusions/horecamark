@@ -112,7 +112,7 @@ class ScrapeOrchestrator:
         """
         self.summary.start()
         logger.info(f"Siteler: {', '.join(self.sites)}")
-        logger.info(f"Kategoriler: {', '.join(self.categories) or 'Tumu'}")
+        logger.info(f"Kategoriler: {', '.join(self.categories) if self.categories else 'Tümü'}")
         logger.info(f"Dry Run: {self.dry_run}")
 
         # Initialize database

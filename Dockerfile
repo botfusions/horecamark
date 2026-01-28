@@ -1,4 +1,5 @@
-FROM python:3.11-slim
+# Playwright Official Image - Chromium pre-installed
+FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
@@ -7,10 +8,8 @@ ENV PYTHONUNBUFFERED=1 \
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies (keep minimal for build)
+# Install PostgreSQL client
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    curl \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
@@ -21,15 +20,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy scraper code
 COPY scraper /app/scraper
 
+# Copy database migrations
+COPY database/migrations /app/migrations
+
 # Create directories for logs and reports
 RUN mkdir -p /app/logs /app/reports
 
 # Copy entrypoint script
 COPY scraper/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
-
-# NOTE: Playwright browsers installed at runtime in entrypoint.sh
-# to avoid build-time CDN issues
 
 # Set the entrypoint and default command
 ENTRYPOINT ["/app/entrypoint.sh"]
