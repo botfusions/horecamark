@@ -1,5 +1,5 @@
 # Coolify Configuration for HorecaMark Price Intelligence
-# https://coolify.io/docs/deployment/docker-compose
+# Background service - no public ports needed
 
 services:
   # PostgreSQL Database
@@ -18,10 +18,10 @@ services:
       timeout: 5s
       retries: 5
 
-  # Python Scraper Service
+  # Python Scraper Service (Background Worker)
   scraper:
     build:
-      context: ./scraper
+      context: .
       dockerfile: Dockerfile
     restart: always
     environment:
@@ -53,6 +53,7 @@ services:
     volumes:
       - ./logs:/app/logs
       - ./reports:/app/reports
+    # No ports exposed - this is a background worker
 
 volumes:
   db_data:

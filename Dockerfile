@@ -16,21 +16,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install Python dependencies
-COPY requirements.txt .
+COPY scraper/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install Playwright browsers
 RUN playwright install chromium
 RUN playwright install-deps chromium
 
-# Copy application code
-COPY . .
+# Copy scraper code
+COPY scraper /app/scraper
 
 # Create directories for logs and reports
 RUN mkdir -p /app/logs /app/reports
 
 # Copy entrypoint script
-COPY entrypoint.sh /app/entrypoint.sh
+COPY scraper/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 # Set the entrypoint and default command
