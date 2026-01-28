@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: horecemark-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-horecemark}
+      POSTGRES_USER: ${DB_USER:-horeca}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-horeca_secure_password}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d:ro
+    networks:
+      - horecemark-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-horeca} -d ${DB_NAME:-horecemark}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  scraper:
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    container_name: horecemark-scraper
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-horecemark}
+      DB_USER: ${DB_USER:-horeca}
+      DB_PASSWORD: ${DB_PASSWORD:-horeca_secure_password}
+      DATABASE_URL: postgresql://${DB_USER:-horeca}:${DB_PASSWORD:-horeca_secure_password}@postgres:5432/${DB_NAME:-horecemark}
+      SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
+      EMAIL_TO: ${EMAIL_TO:-}
+      SCRAPE_TIME: ${SCRAPE_TIME:-08:00}
+      SCHEDULER_ENABLED: ${SCHEDULER_ENABLED:-false}
+    volumes:
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+    networks:
+      - horecemark-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  horecemark-network:
+    driver: bridge
