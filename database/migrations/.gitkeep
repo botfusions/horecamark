@@ -1,0 +1,5 @@
+# Database Migrations
+
+This directory contains SQLAlchemy migration files for the HorecaMark database schema.
+
+Migration files will be added here using Alembic or a custom migration tool.

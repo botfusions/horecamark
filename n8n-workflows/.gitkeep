@@ -1,0 +1,9 @@
+# n8n Workflows
+
+This directory contains n8n workflow JSON files for HorecaMark automation.
+
+Workflows will be added here for:
+- Daily scraping triggers
+- Email notifications
+- Report generation
+- Price alert processing

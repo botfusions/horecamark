@@ -1,0 +1,41 @@
+[project]
+name = "horecemark"
+version = "0.1.0"
+description = "Price Intelligence for Turkish Hospitality Industry"
+authors = [
+    {name = "HorecaMark Team"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "playwright>=1.48.0",
+    "sqlalchemy>=2.0.36",
+    "psycopg2-binary>=2.9.10",
+    "thefuzz>=0.3.5",
+    "openpyxl>=3.1.5",
+    "python-dotenv>=1.0.1",
+    "aiohttp>=3.11.11",
+    "aiofiles>=24.1.0",
+    "beautifulsoup4>=4.12.3",
+    "lxml>=5.3.0",
+    "pandas>=2.2.3",
+    "schedule>=1.2.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.24.0",
+    "pytest-mock>=3.14.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

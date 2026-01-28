@@ -1,0 +1,98 @@
+# Docker Compose Override for Production
+# Copy this file to docker-compose.override.yml and adjust values
+#
+# Usage:
+#   cp docker-compose.override.yml.example docker-compose.override.yml
+#   # Edit docker-compose.override.yml with your settings
+#   docker-compose up -d
+
+version: "3.9"
+
+services:
+  postgres:
+    # Production restart policy
+    restart: always
+
+    # Production volume mounts
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d:ro
+      - ./database/backups:/backups  # Backup directory
+
+    # Resource limits (adjust based on your server)
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  scraper:
+    # Production restart policy
+    restart: always
+
+    # Command to run scheduler daemon
+    # Comment out to run scraper manually
+    command: ["python", "-m", "scraper.main", "schedule"]
+
+    # Production volume mounts
+    volumes:
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./database/backups:/app/backups
+
+    # Resource limits (adjust based on your server)
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    # Environment overrides (add to .env file instead)
+    # environment:
+    #   - SCRAPE_TIME=08:00
+    #   - LOG_LEVEL=INFO
+
+  # Optional: Add backup service
+  # backup:
+  #   image: prodrigestivill/postgres-backup-local:15
+  #   container_name: horecemark-backup
+  #   restart: always
+  #   environment:
+  #     - POSTGRES_HOST=postgres
+  #     - POSTGRES_DB=horecemark
+  #     - POSTGRES_USER=horeca
+  #     - POSTGRES_PASSWORD=${DB_PASSWORD:-horeca_secure_password}
+  #     - SCHEDULE=@daily  # Backup schedule
+  #     - BACKUP_KEEP_DAYS=30
+  #     - BACKUP_KEEP_WEEKS=8
+  #     - BACKUP_KEEP_MONTHS=12
+  #   volumes:
+  #     - ./database/backups:/backups
+  #   networks:
+  #     - horecemark-network
+  #   depends_on:
+  #     - postgres
+
+volumes:
+  postgres_data:
+    driver: local

@@ -1,0 +1,16 @@
+# Manual Product Mappings
+# Use this file to override automatic product matching
+# Format: source_product_id,target_product_id,confidence,notes
+#
+# Columns:
+#   source_product_id: Product ID from scraper (e.g., "cafemarkt_12345")
+#   target_product_id: Canonical product ID in products table
+#   confidence: 1-100 (1=low, 100=certain)
+#   notes: Optional explanation for the mapping
+#
+# Example:
+#   cafemarkt_12345,678,100,Exact match verified manually
+#   arigastro_67890,678,95,Same product Fagor CG9-41 verified
+#
+# IMPORTANT: Lines starting with # are comments
+source_product_id,target_product_id,confidence,notes

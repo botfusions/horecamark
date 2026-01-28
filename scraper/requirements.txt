@@ -1,0 +1,36 @@
+# HorecaMark Price Intelligence - Python Dependencies
+
+# Browser Automation
+playwright==1.48.0
+
+# Database
+sqlalchemy==2.0.36
+psycopg2-binary==2.9.10
+
+# String Matching
+thefuzz==0.3.5
+
+# Excel Export
+openpyxl==3.1.5
+
+# Configuration
+python-dotenv==1.0.1
+
+# Async HTTP
+aiohttp==3.11.11
+aiofiles==24.1.0
+
+# HTML Parsing
+beautifulsoup4==4.12.3
+lxml==5.3.0
+
+# Data Manipulation
+pandas==2.2.3
+
+# Task Scheduling
+schedule==1.2.2
+
+# Testing (optional)
+pytest==8.3.4
+pytest-asyncio==0.24.0
+pytest-mock==3.14.0
