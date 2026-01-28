@@ -122,6 +122,9 @@ SITE_CONFIGS = {
 class Config:
     """Application configuration loaded from environment variables."""
 
+    # Site configurations (reference to module-level constant)
+    SITE_CONFIGS = SITE_CONFIGS
+
     # Database
     DATABASE_URL: Optional[str] = os.getenv("DATABASE_URL")
     DB_HOST: str = os.getenv("DB_HOST", "localhost")
