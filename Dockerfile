@@ -7,11 +7,10 @@ ENV PYTHONUNBUFFERED=1 \
 # Set working directory
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies (keep minimal for build)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     curl \
-    wget \
     postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
@@ -29,10 +28,8 @@ RUN mkdir -p /app/logs /app/reports
 COPY scraper/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
-# Install Playwright browsers at runtime with retries
-RUN playwright install --with-deps chromium || \
-    (sleep 5 && playwright install --with-deps chromium) || \
-    (sleep 10 && playwright install --with-deps chromium)
+# NOTE: Playwright browsers installed at runtime in entrypoint.sh
+# to avoid build-time CDN issues
 
 # Set the entrypoint and default command
 ENTRYPOINT ["/app/entrypoint.sh"]

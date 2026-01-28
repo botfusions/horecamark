@@ -59,6 +59,26 @@ init_database() {
     log_info "Database initialization complete"
 }
 
+# Function to install Playwright browsers at runtime
+install_playwright_browsers() {
+    log_info "Installing Playwright Chromium browser..."
+
+    # Try up to 3 times with delays
+    for attempt in 1 2 3; do
+        if playwright install --with-deps chromium; then
+            log_info "Playwright Chromium installed successfully!"
+            return 0
+        fi
+
+        log_warn "Attempt $attempt failed, retrying in ${attempt}0 seconds..."
+        sleep ${attempt}0
+    done
+
+    log_error "Failed to install Playwright after 3 attempts"
+    log_warn "Continuing anyway - scrapers that need browsers may fail"
+    return 1
+}
+
 # Function to check if we should run scheduler
 should_run_scheduler() {
     # Check if SCHEDULER_ENABLED is set to true
@@ -90,6 +110,9 @@ main() {
 
     # Set permissions
     chmod 755 /app/logs /app/reports 2>/dev/null || true
+
+    # Install Playwright browsers at runtime
+    install_playwright_browsers
 
     log_info "Environment ready. Starting application..."
 
