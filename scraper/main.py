@@ -729,16 +729,16 @@ Ornekler:
     )
     cleanup_parser.set_defaults(func=cmd_cleanup)
 
-    return parser.parse_args()
+    return parser, parser.parse_args()
 
 
 def main():
     """Main entry point for the scraper."""
-    args = parse_args()
+    parser, args = parse_args()
 
     # If no command specified, show help
     if not args.command:
-        parse_args().print_help()
+        parser.print_help()
         return 0
 
     # Run command
